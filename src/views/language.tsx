@@ -5,15 +5,16 @@ import Footer from "../components/footer";
 import Subheader from "../components/subheader";
 import Card from "../components/card";
 
+import {ILanguage} from "../interfaces/language";
+
 import {getLanguages} from "../services/languages";
 
-const Language: React.FC = () => {
+const Language: React.FC = () => { 
 
     const [languages,setLanguages] = useState([]);
 
     useEffect(()=>{
-        getLanguages.then(r=>{
-            console.log(r);
+        getLanguages.then(r=>{          
             setLanguages(r);
         });        
     },[]);
@@ -29,13 +30,15 @@ const Language: React.FC = () => {
                         description="Click the button to create a new language"
                         key="0" 
                         category=""
+                        btn_label="New One"
                     />
-                    {languages.map((lan,index) => (
+                    {languages.map((lan: ILanguage,index) => (
                         <Card 
-                            title={lan["name"]} 
-                            description={lan["description"]} 
-                            key={lan["_id"]} 
-                            category={lan["category"][0]["name"]}
+                            title={lan.name} 
+                            description={lan.description} 
+                            key={lan._id} 
+                            category={lan.category[0].name}
+                            LanguageId={lan._id}
                         />
                     ))}
                 </div>

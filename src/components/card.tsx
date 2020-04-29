@@ -1,12 +1,15 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
 interface ICardProps{
     title: string,
     description: string,
-    category: string
+    category: string,
+    btn_label?: string
+    LanguageId?: string
 }
 
-const Card:React.FC<ICardProps> = ({title,description,category}) => {
+const Card:React.FC<ICardProps> = ({title,description,category, btn_label, LanguageId}) => {
 
     return(
         <div className="col-lg-3 col-md-6 mb-4">
@@ -19,7 +22,12 @@ const Card:React.FC<ICardProps> = ({title,description,category}) => {
                     <p className="card-text">{description}</p>
                 </div>
                 <div className="card-footer">
-                    <a href="#" className="btn btn-primary">Find Out More!</a>
+                    { btn_label ? (
+                        <Link to="/languages/new">{btn_label}</Link>
+                    ) : (
+                        <Link to={`/languages/${LanguageId}`}>View more</Link>
+                    ) }
+                    
                 </div>
             </div>
         </div>
