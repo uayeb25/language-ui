@@ -12,6 +12,7 @@ const App: React.FC = () => (
       <Switch>
           <Route path="/languages" exact component={Language}/>
           <Route path="/languages/new" exact component={CreateLanguage}/>
+          <Route path="/languages/:id/edit" exact component={CreateLanguage}/>
       </Switch>
   </BrowserRouter>
   

@@ -25,7 +25,7 @@ const Card:React.FC<ICardProps> = ({title,description,category, btn_label, Langu
                     { btn_label ? (
                         <Link to="/languages/new">{btn_label}</Link>
                     ) : (
-                        <Link to={`/languages/${LanguageId}`}>View more</Link>
+                        <Link to={`/languages/${LanguageId}/edit`}>Edit</Link>
                     ) }
                     
                 </div>

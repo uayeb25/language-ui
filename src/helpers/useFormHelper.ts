@@ -10,9 +10,14 @@ function useFormHelper(states:any){
         });
     }
 
+    function updateValues(new_states:any){
+        setValues(new_states);
+    }
+
     return {
         values,        
-        handleChange
+        handleChange,
+        updateValues
     }
 
 }

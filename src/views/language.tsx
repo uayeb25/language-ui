@@ -12,12 +12,23 @@ import {getLanguages} from "../services/languages";
 const Language: React.FC = () => { 
 
     const [languages,setLanguages] = useState([]);
+    const [update,setUpdate] = useState(true);
 
     useEffect(()=>{
-        getLanguages.then(r=>{          
-            setLanguages(r);
-        });        
-    },[]);
+        if(update){
+            getLanguages().then(r=>{                
+                setUpdate(false);
+                setLanguages(r.data);
+            });
+        }
+                
+    },[update]);
+
+    useEffect(() => {
+        return () => {
+          console.log("cleaned up");
+        };
+      }, []);
 
     return(
         <div>

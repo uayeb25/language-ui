@@ -2,19 +2,24 @@ import React,{useState,useEffect} from "react";
 
 import Modal from "./modal";
 import {getCategories} from "../services/categories";
-import {postLanguage} from "../services/languages";
+import {postLanguage,getLanguage,putLanguage} from "../services/languages";
 import {ICategory} from "../interfaces/category";
+
+import {useParams} from "react-router-dom";
 
 import useFormHelper from "../helpers/useFormHelper";
 
 const LanguageForm:React.FC = () => {
 
     const [categories,setCategories] = useState([]);
+    const [cleanUp,setCleanUp] = useState(true);
+    
+    /* MODAL */
     const [showmodal,setShowmodal] = useState(false);
     const [submitting,setSubmitting] = useState(false);
     const [message,setMessage] = useState("Do you want to save?");
     const [completed,setCompleted] = useState(false);
-    
+     
 
     function hideModal(){
       setShowmodal(false);
@@ -22,32 +27,35 @@ const LanguageForm:React.FC = () => {
 
     function showModal(){
       setShowmodal(true);
-    }
-
-    const states = {
-      name: "",
-      description: "",
-      category: ""
-    }
-
-    const {
-      values,      
-      handleChange      
-    } = useFormHelper(states);
+    }      
 
     function saveLanguage(){
+
       if(!completed){
         setSubmitting(true);
         setMessage("Sending...");
-        postLanguage(values).then(value=>{
-          setCompleted(true);
-          setSubmitting(false);
-          if(value.data.successed){
-            setMessage("Language saved with success");          
-          }else{
-            setMessage("Language name already exist");
-          }
-        })
+
+        if(id){
+          putLanguage(id,values).then(value=>{
+            setCompleted(true);
+            setSubmitting(false);
+            if(value.data.successed){
+              setMessage("Language updated with success");          
+            }else{
+              setMessage("Language name already exist");
+            }
+          })
+        }else{
+          postLanguage(values).then(value=>{
+            setCompleted(true);
+            setSubmitting(false);
+            if(value.data.successed){
+              setMessage("Language saved with success");          
+            }else{
+              setMessage("Language name already exist");
+            }
+          })
+        }
       }else{
         setCompleted(false);
         setMessage("Do you want to save?");
@@ -56,11 +64,47 @@ const LanguageForm:React.FC = () => {
       
     }
 
+    /*********************** */
+
+    const {id} = useParams();
+     
+    const states = useState({
+      name: "",
+      description: "",
+      category: ""
+    });      
+
+    const {
+      values,      
+      handleChange,
+      updateValues      
+    } = useFormHelper(states);
+
+    useEffect(()=>{
+      if(id && cleanUp){
+        setCleanUp(false);
+        getLanguage(id).then(value=>{
+          updateValues({
+            name: value.data.name,
+            description: value.data.description,
+            category: value.data.category
+          });          
+        })
+      }
+    },[id,updateValues,cleanUp])
+
     useEffect(()=>{
       getCategories.then(c => {
         setCategories(c);
       });
     },[]);
+
+    useEffect(() => {
+      return () => {
+        console.log("cleaned up");
+      };
+    }, []);
+  
 
     return(
     <div>
@@ -74,6 +118,7 @@ const LanguageForm:React.FC = () => {
           closeModal={hideModal}
           accept={saveLanguage}
           submitting={submitting}
+          completed={completed}
         />
 
         <form className="align-items-center" >
@@ -85,7 +130,7 @@ const LanguageForm:React.FC = () => {
             id="formGroupExampleInput"
             onChange={handleChange}
             name="name"
-            value={values.name}
+            defaultValue={values.name}
           />
         </div>
         <div className="form-group">
@@ -111,7 +156,7 @@ const LanguageForm:React.FC = () => {
             rows={6}
             onChange={handleChange}
             name="description"
-            value={values.description}
+            defaultValue={values.description}
           />
         </div>
        
