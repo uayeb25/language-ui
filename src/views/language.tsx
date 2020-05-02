@@ -16,12 +16,11 @@ const Language: React.FC = () => {
 
     useEffect(()=>{
         if(update){
-            getLanguages().then(r=>{                
+            getLanguages().then( r=>{                
                 setUpdate(false);
                 setLanguages(r.data);
             });
-        }
-                
+        }      
     },[update]);
 
     useEffect(() => {

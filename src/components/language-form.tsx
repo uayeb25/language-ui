@@ -50,7 +50,7 @@ const LanguageForm:React.FC = () => {
             setCompleted(true);
             setSubmitting(false);
             if(value.data.successed){
-              setMessage("Language saved with success");          
+              setMessage("Language stored with success");          
             }else{
               setMessage("Language name already exist");
             }
@@ -94,7 +94,7 @@ const LanguageForm:React.FC = () => {
     },[id,updateValues,cleanUp])
 
     useEffect(()=>{
-      getCategories.then(c => {
+      getCategories().then(c => {
         setCategories(c);
       });
     },[]);
