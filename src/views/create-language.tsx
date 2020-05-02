@@ -12,6 +12,8 @@ import {deleteLanguage} from "../services/languages";
 
 const CreateLanguage: React.FC = () => {     
     const [needAction,setNeedAction] = useState(false);
+    const [back,setBack] = useState(false);
+    const [deleted,setDeleted] = useState(false);
     const {id} = useParams();
 
     /*Modal stages*/ 
@@ -19,8 +21,8 @@ const CreateLanguage: React.FC = () => {
     const [submitting,setSubmitting] = useState(false);
     const [message,setMessage] = useState("Do you want to delete?");
     const [completed,setCompleted] = useState(false);
-    const [back,setBack] = useState(false);
-    const [deleted,setDeleted] = useState(false);
+    
+    
 
     function hideModal(){
         setShowmodal(false);
@@ -41,7 +43,7 @@ const CreateLanguage: React.FC = () => {
                 setMessage(value.data.message);
                 setDeleted(true);
               }else{
-                setMessage("Language name already exist");
+                setMessage("We got a server error!");
               }
             })
           }else{
