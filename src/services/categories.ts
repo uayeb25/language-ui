@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const query: string = "http://localhost:3001"
+const query: string = "http://localhost:3003"
 
 
 export function getCategories(): Promise<any>{
@@ -16,6 +16,16 @@ export function getCategories(): Promise<any>{
 export function getCategoriesWLanguages(): Promise<any>{
     return new Promise<any>(resolve=>{   
         axios.get(`${query}/categories/languages`)
+        .then(result=>{        
+            resolve(result.data);
+        })
+        .catch(error => resolve([]));
+    });
+}
+
+export function getCategory(id: string): Promise<any>{
+    return new Promise<any>(resolve=>{   
+        axios.get(`${query}/category/${id}`)
         .then(result=>{        
             resolve(result.data);
         })

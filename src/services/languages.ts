@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const query: string = "http://localhost:3001"
+const query: string = "http://localhost:3003"
 
 export function getLanguages(){       
     return axios.get(`${query}/languages`);    
@@ -33,6 +33,14 @@ export function deleteLanguage(id:any): Promise<any>{
 export function getLanguage(id:string): Promise<any>{
     return new Promise<any>(resolve=>{
         axios.get(`${query}/language/${id}`)
+        .then(result => resolve(result) )
+        .catch(error => resolve( {data: {successed:false}} ) );
+    });
+}
+
+export function getLanguageByCategory(id:string): Promise<any>{
+    return new Promise<any>(resolve=>{
+        axios.get(`${query}/languages/category/${id}`)
         .then(result => resolve(result) )
         .catch(error => resolve( {data: {successed:false}} ) );
     });

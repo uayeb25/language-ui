@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 import Language from "./views/language";
+import LanguageCategory from "./views/language-category";
 import CreateLanguage from "./views/create-language";
 import Categories from "./views/categories";
 
@@ -15,6 +16,7 @@ const App: React.FC = () => (
           <Route path="/languages/new" exact component={CreateLanguage}/>
           <Route path="/languages/:id/edit" exact component={CreateLanguage}/>
           <Route path="/categories" exact component={Categories} />
+          <Route path="/categories/:id" exact component={LanguageCategory} />
       </Switch>
   </BrowserRouter>
   

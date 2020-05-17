@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from "react";
+import {Redirect} from "react-router-dom"
 
 import {getCategoriesWLanguages, deleteCategory} from "../services/categories";
 import Modal from "./modal";
@@ -8,6 +9,7 @@ const CategoryTable: React.FC = () => {
     const [categories,setCategories] = useState([]);
     const [updatedCategories,setUpdatedCategories] = useState(false);
     const [categoryId,setCategoryId] = useState("");
+    const [redirectNow,setRedirectNow] = useState(false);
 
     /* MODAL */
     const [showmodal,setShowmodal] = useState(false);
@@ -15,6 +17,10 @@ const CategoryTable: React.FC = () => {
     const [message,setMessage] = useState("Do you want to delete?");
     const [completed,setCompleted] = useState(false);
      
+    function redirectTo(event:any){
+        setCategoryId(event.target.id);
+        setRedirectNow(true)
+    }
 
     function hideModal(){
         setShowmodal(false);
@@ -87,6 +93,7 @@ const CategoryTable: React.FC = () => {
                         <th scope="col">Id</th>
                         <th scope="col">Name</th>
                         <th scope="col">Languages Setted</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>                
                     </tr>
                 </thead>
@@ -104,13 +111,25 @@ const CategoryTable: React.FC = () => {
                                 id={data._id}
                                 >Delete</button>
                             </td>
-                    </tr>
+                            <td>
+                                <button 
+                                type="button" 
+                                className="btn btn-info" 
+                                onClick={redirectTo} 
+                                id={data._id}
+                                >Go</button>
+                            </td>
+                        </tr>
                     ))}
                                     
                 </tbody>
             </table>
+            { (redirectNow) && (
+                <Redirect to={`categories/${categoryId}`} ></Redirect>
+            ) }
         </div>
 
+       
         
     );
 }
